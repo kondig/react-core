@@ -38,7 +38,8 @@ class Board extends React.Component {
   // }
   renderSquare(i) {
     return <Square value={this.props.squares[i]}
-                   onClick={()=> this.props.onClick(i)}/>;
+                   onClick={()=> this.props.onClick(i)}
+                   />;
   }
   render() {
     // const winner = calculateWinner(this.state.squares);
@@ -99,6 +100,8 @@ class Game extends React.Component {
           }],
           xIsNext: true,
           stepNumber: 0,
+          stepCoords: [null,null],
+          indexOfMove: -1,
       }
   }
   handleClick(i) {
@@ -108,19 +111,33 @@ class Game extends React.Component {
       if (calculateWinner(squares) || squares[i]) {
           return;
       }
+      const nrOfRows = 3;
+      let row;
+      if (i < squares.length/nrOfRows) { row = 1 }
+      else if (i >= squares.length/nrOfRows && i < 2*squares.length/nrOfRows )
+      { row = 2 }
+      else
+      { row = 3 };
+      let col;
+      if      (i == 0 || i == 3 || i == 6) { col = 1 }
+      else if (i == 1 || i == 4 || i == 7) { col = 2 }
+      else if (i == 2 || i == 5 || i == 8) { col = 3 };
       squares[i] = this.state.xIsNext ? 'X' : 'O';
       this.setState({
           history: history.concat([{
               squares: squares,
+              stepCoords: [col,row]
           }]),
           xIsNext: !this.state.xIsNext,
           stepNumber: history.length,
+
       });
   }
   jumpTo(step) {
       this.setState({
           stepNumber: step,
           xIsNext: (step % 2) === 0,
+          indexOfMove: step,
       });
   }
   render() {
@@ -131,12 +148,15 @@ class Game extends React.Component {
     const current = history[this.state.stepNumber];
     const winner = calculateWinner(current.squares);
     const moves = history.map((step,move) => {
+        console.log(history[move]);
         const desc = move ?
-            'Go to move #' + move :
+            'Go to move #' + move + '   (' + history[move].stepCoords + ')' :
             'Go to game start';
         return (
             <li key={move}>
-                <button onClick={() => this.jumpTo(move)}>
+                <button onClick={() => this.jumpTo(move)}
+                        style={{backgroundColor: (move === this.state.stepNumber) ? 'purple' : '#e3e3e3',
+                                color: (move === this.state.stepNumber) ? '#ffffff' : '#000000',}}>
                     {desc}
                 </button>
             </li>
