@@ -119,9 +119,9 @@ class Game extends React.Component {
       else
       { row = 3 };
       let col;
-      if      (i == 0 || i == 3 || i == 6) { col = 1 }
-      else if (i == 1 || i == 4 || i == 7) { col = 2 }
-      else if (i == 2 || i == 5 || i == 8) { col = 3 };
+      if      (i === 0 || i === 3 || i === 6) { col = 1 }
+      else if (i === 1 || i === 4 || i === 7) { col = 2 }
+      else if (i === 2 || i === 5 || i === 8) { col = 3 };
       squares[i] = this.state.xIsNext ? 'X' : 'O';
       this.setState({
           history: history.concat([{
@@ -148,7 +148,6 @@ class Game extends React.Component {
     const current = history[this.state.stepNumber];
     const winner = calculateWinner(current.squares);
     const moves = history.map((step,move) => {
-        console.log(history[move]);
         const desc = move ?
             'Go to move #' + move + '   (' + history[move].stepCoords + ')' :
             'Go to game start';
