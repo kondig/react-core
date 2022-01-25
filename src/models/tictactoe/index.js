@@ -1,4 +1,2 @@
-export {
-    initialState,
-    reducer,
-} from './reducer';
+export * from './reducer';
+export * from './selectors';

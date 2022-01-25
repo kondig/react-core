@@ -7,7 +7,7 @@ import { calculateTicTacToeWinner } from 'libraries';
 
 const initialState = {
     history: [{
-        squares: Array(9).fill(null),
+        squares: Array(9).fill(null),        
     }],
     xIsNext: true,
     stepNumber: 0,
@@ -23,7 +23,7 @@ function reducer(state, action) {
             const history = state.history.slice(0, state.stepNumber + 1);
             const current = history[history.length - 1];
             // const current = history[state.history.length - 1];
-            const squares = current.squares.slice();        
+            const squares = current.squares.slice();
             if (state.winner || squares[i]) {
                 return state;
             };

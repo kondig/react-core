@@ -1,17 +1,31 @@
 import React, { useReducer } from 'react';
 
 import { Board } from 'components';
+
+import { calculateTicTacToeWinner } from 'libraries';
+
 import {
     initialState,
     reducer,
-} from 'models/tictactoe';
-
-import { calculateTicTacToeWinner } from 'libraries';
+} from 'models/tictactoe/reducer';
 
 import {
     jumpTo as jmpTo,
     play,
 } from 'models/tictactoe/actions';
+
+import {
+    xIsNext,
+    winner,
+    stepCoords,
+    stepNumber,
+    history,
+    historyStepCoords,
+    historySquares,
+    squares,
+    square,
+    squareByCoords,
+} from 'models/tictactoe/selectors';
 
 import './game.css';
 
@@ -79,6 +93,21 @@ function Game() {
             </li>
         )
     });
+    // const stepNum = stepNumber(state);
+    // const moves = historyStepCoords(state).map(stepCoords, move) => {
+    //     const desc = move ?
+    //         'Go to move #' + move + '   (' + stepCoords + ')' :
+    //         'Go to game start';
+    //     return (
+    //         <li key={move}>
+    //             <button onClick={() => jumpTo(move)}
+    //                     style={{backgroundColor: (move === stepNum) ? 'purple' : '#e3e3e3',
+    //                             color: (move === stepNum) ? '#ffffff' : '#000000',}}>
+    //                 {desc}
+    //             </button>
+    //         </li>
+    //     )
+    // });
     const status = state.winner
         ? 'Winner: ' + state.winner
         : 'Next player: ' + (state.xIsNext ? 'X' : 'O');
