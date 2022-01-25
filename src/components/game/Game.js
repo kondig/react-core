@@ -1,78 +1,70 @@
 import React, { useReducer } from 'react';
 
 import { Board } from 'components';
+import {
+    initialState,
+    reducer,
+} from 'models/tictactoe';
 
 import { calculateTicTacToeWinner } from 'libraries';
 
+import {
+    jumpTo as jmpTo,
+    play,
+} from 'models/tictactoe/actions';
+
 import './game.css';
 
-const initialState = {
-    history: [{
-        squares: Array(9).fill(null),
-    }],
-    xIsNext: true,
-    stepNumber: 0,
-    stepCoords: [null,null],
-};
-function reducer(state, action) {
-    switch (action.type) {
-        case 'newSquareClicked':
-            return {
-                ...state,
-                history: state.history.concat([{
-                    squares: action.payload.squares,
-                    stepCoords: [action.payload.col,action.payload.row],
-                }]),
-                xIsNext: !state.xIsNext,
-                stepNumber: state.history.length,
-                stepCoords: [action.payload.col,action.payload.row],
-            };
-        case 'jumpToMove':
-            return {
-                ...state,
-                stepNumber: action.payload,
-                xIsNext: (action.payload % 2) === 0,
-                indexOfMove: action.payload,
-            };
-        default:
-            throw new Error();
-    }
-}
+// const initialState = {
+//     history: [{
+//         squares: Array(9).fill(null),
+//     }],
+//     xIsNext: true,
+//     stepNumber: 0,
+//     stepCoords: [null,null],
+// };
+
+// function reducer(state, action) {
+//     switch (action.type) {
+//         case 'newSquareClicked':
+//             return {
+//                 ...state,
+//                 history: state.history.concat([{
+//                     squares: action.payload.squares,
+//                     stepCoords: [action.payload.col,action.payload.row],
+//                 }]),
+//                 xIsNext: !state.xIsNext,
+//                 stepNumber: state.history.length,
+//                 stepCoords: [action.payload.col,action.payload.row],
+//             };
+//         case 'jumpToMove':
+//             return {
+//                 ...state,
+//                 stepNumber: action.payload,
+//                 xIsNext: (action.payload % 2) === 0,
+//                 indexOfMove: action.payload,
+//             };
+//         default:
+//             throw new Error();
+//     }
+// }
 
 
 function Game() {
     const [state, dispatch] = useReducer(reducer, initialState);
 
     const handleClick = (i) => {
-        const history = state.history.slice(0, state.stepNumber + 1);
-        const current = history[state.history.length - 1];
-        const squares = current.squares.slice();
-        if (calculateTicTacToeWinner(squares) || squares[i]) {
-            return;
-        }
-        let row;
-        if      (i === 0 || i === 1 || i === 2) { row = 1 }
-        else if (i === 3 || i === 4 || i === 5) { row = 2 }
-        else if (i === 6 || i === 7 || i === 8) { row = 3 };
-        let col;
-        if      (i === 0 || i === 3 || i === 6) { col = 1 }
-        else if (i === 1 || i === 4 || i === 7) { col = 2 }
-        else if (i === 2 || i === 5 || i === 8) { col = 3 };
-        squares[i] = state.xIsNext ? 'X' : 'O';
-        dispatch({
-            type:'newSquareClicked',
-            payload: {squares, row, col}
-        });
+        // dispatch({ type:'newSquareClicked', payload: { i } });
+        dispatch(play({ i }));
     };
     const jumpTo = (step) => {
-        dispatch({
-            type:'jumpToMove',
-            payload: step
-        })
+        // dispatch({ type:'jumpToMove', payload: step })
+        dispatch(jmpTo({ step }));
     };
     const history = state.history;
     const current = history[state.stepNumber];
-    const winner = calculateTicTacToeWinner(current.squares);
+    // const current = history[history.length - 1];
+    // const winner = calculateTicTacToeWinner(current.squares);
     const moves = history.map((step,move) => {
         const desc = move ?
             'Go to move #' + move + '   (' + history[move].stepCoords + ')' :
@@ -87,12 +79,14 @@ function Game() {
             </li>
         )
     });
-    let status;
-    if (winner) {
-        status = 'Winner: ' + winner;
-    } else {
-        status = 'Next player: ' + (state.xIsNext ? 'X' : 'O');
-    }
+    const status = state.winner
+        ? 'Winner: ' + state.winner
+        : 'Next player: ' + (state.xIsNext ? 'X' : 'O');
+    // if (state.winner) {
+    //     status = 'Winner: ' + state.winner;
+    // } else {
+    //     status = 'Next player: ' + (state.xIsNext ? 'X' : 'O');
+    // }
     return (
       <div className="game">
         <div className="game-board">
