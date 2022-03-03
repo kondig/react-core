@@ -4,31 +4,6 @@ import { Board } from 'components';
 
 import './game.css';
 
-// import { calculateTicTacToeWinner } from 'libraries';
-
-// import {
-//     initialState,
-//     reducer,
-// } from 'models/tictactoe/reducer';
-
-// import {
-//     jumpTo as jmpTo,
-//     play,
-// } from 'models/tictactoe/actions';
-
-// import {
-//     xIsNext,
-//     winner,
-//     stepCoords,
-//     stepNumber,
-//     history,
-//     historyStepCoords,
-//     historySquares,
-//     squares,
-//     square,
-//     squareByCoords,
-// } from 'models/tictactoe/selectors';
-
 function Game({
     history,
     winner,
@@ -63,7 +38,8 @@ function Game({
         <div className="game-board">
           <Board
             squares={squares}
-            onClick={(i) => play(i)}
+            // onClick={(i) => play(i)}
+            onClick={play}
           />
         </div>
         <div className="game-info">

@@ -1,13 +1,13 @@
 import {
-    JUMP_TO,
-    PLAY,
+    jumpTo,
+    play,
 } from './actions';
 
 import { calculateTicTacToeWinner } from 'libraries';
 
 const initialState = {
     history: [{
-        squares: Array(9).fill(null),        
+        squares: Array(9).fill(null),
     }],
     xIsNext: true,
     stepNumber: 0,
@@ -17,7 +17,7 @@ const initialState = {
 
 function reducer(state, action) {
     switch (action.type) {
-        case PLAY: {
+        case play.type: {
             const { i } = action.payload;
             // const i = action.payload.i;
             const history = state.history.slice(0, state.stepNumber + 1);
@@ -43,7 +43,7 @@ function reducer(state, action) {
                 stepCoords: [row, col],
             };
         };
-        case JUMP_TO: {
+        case jumpTo.type: {
             const { step } = action.payload;
             console.log('actionJUMP: ', { step });
             return {
