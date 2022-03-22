@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, createContext } from 'react';
 
 import { Game } from 'components';
 
@@ -7,51 +7,36 @@ import {
     reducer,
 } from 'models/tictactoe/reducer';
 
-import {
-    jumpTo,
-    play,
-} from 'models/tictactoe/actions';
-
-import {
-    xIsNext,
-    winner,
-    stepCoords,
-    stepNumber,
-    history,
-    historyStepCoords,
-    historySquares,
-    squares,
-    square,
-    squareByCoords,
-} from 'models/tictactoe/selectors';
+// import {
+//     jumpTo,
+//     play,
+// } from 'models/tictactoe/actions';
+//
+// import {
+//     xIsNext,
+//     winner,
+//     stepCoords,
+//     stepNumber,
+//     history,
+//     historyStepCoords,
+//     historySquares,
+//     squares,
+//     square,
+//     squareByCoords,
+// } from 'models/tictactoe/selectors';
 
 import './app.css';
 
+const StateContext = createContext();
+
 function App() {
     const [state, dispatch] = useReducer(reducer, initialState);
-
-    const playAction = (i) => {
-        // dispatch({ type:'newSquareClicked', payload: { i } });
-        dispatch(play({ i }));
-    };
-    const jumpAction = (step) => {
-        // dispatch({ type:'jumpToMove', payload: step })
-        dispatch(jumpTo({ step }));
-    };
-
     return (
-          <Game
-                history={ history(state) }
-                winner={ winner(state) }
-                xIsNext= { xIsNext(state) }
-                stepNumber={ stepNumber(state) }
-                squares={ squares(state) }
-                jumpTo={ jumpAction }
-                play={ playAction }
-                historyStepCoords={ historyStepCoords(state) }
-          />
+        <StateContext.Provider value={{ state, dispatch }}>
+          <Game />
+        </StateContext.Provider>
     );
 }
 
 
-export { App };
+export { App, StateContext };

@@ -45,9 +45,11 @@ function reducer(state, action) {
         };
         case jumpTo.type: {
             const { step } = action.payload;
+            // const history = state.history.slice(0, step + 1);
             console.log('actionJUMP: ', { step });
             return {
                 ...state,
+                // history,
                 stepNumber: step,
                 xIsNext: (step % 2) === 0,
             };
