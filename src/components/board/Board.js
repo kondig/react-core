@@ -57,4 +57,4 @@ const BoardContainer = () => {
 }
 
 export { Board };
-export default BoardContainer;
+export { BoardContainer };

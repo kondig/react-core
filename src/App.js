@@ -1,29 +1,12 @@
 import React, { useReducer, createContext } from 'react';
 
-import { Game } from 'components';
+// import { Game } from 'components';
+import { GameContainer } from 'components';
 
 import {
     initialState,
     reducer,
 } from 'models/tictactoe/reducer';
-
-// import {
-//     jumpTo,
-//     play,
-// } from 'models/tictactoe/actions';
-//
-// import {
-//     xIsNext,
-//     winner,
-//     stepCoords,
-//     stepNumber,
-//     history,
-//     historyStepCoords,
-//     historySquares,
-//     squares,
-//     square,
-//     squareByCoords,
-// } from 'models/tictactoe/selectors';
 
 import './app.css';
 
@@ -33,10 +16,9 @@ function App() {
     const [state, dispatch] = useReducer(reducer, initialState);
     return (
         <StateContext.Provider value={{ state, dispatch }}>
-          <Game />
+          <GameContainer />
         </StateContext.Provider>
     );
 }
-
 
 export { App, StateContext };

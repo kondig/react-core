@@ -128,6 +128,8 @@ function Game() {
         return (
             <li key={move}>
                 <button onClick={() => context.jumpAction(move)}
+                // <button onClick={() => context.jumpAction(move)}
+                // <button onClick={() => dispatch.jumpTo(move)}
                         style={{backgroundColor: (move === context.state.stepNumber) ? 'purple' : '#e3e3e3',
                                 color: (move === context.state.stepNumber) ? '#ffffff' : '#000000',}}>
                     {desc}

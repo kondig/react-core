@@ -1,20 +1,15 @@
 import React, { useContext } from 'react';
 import { StateContext } from '../../App.js';
 
-import { Board } from 'components';
-import BoardContainer from 'components';
+// import { Board } from 'components';
+import { BoardContainer } from 'components';
 
 import {
     xIsNext as selectIsNext,
     winner as selectWinner,
-    stepCoords,
     stepNumber as selectStepNumber,
     history as selectHistory,
-    historyStepCoords,
-    historySquares,
-    squares as selectSquares,
-    square,
-    squareByCoords,
+    // squares as selectSquares,
 } from 'models/tictactoe/selectors';
 
 import {
@@ -23,17 +18,13 @@ import {
 
 import './game.css';
 
-function Game() {
-    // const context = useContext(StateContext);
-    const { state, dispatch } = useContext(StateContext);
-    const history =  selectHistory(state);
-    const stepNumber = selectStepNumber(state);
-    const winner = selectWinner(state);
-    const xIsNext = selectIsNext(state);
-    const squares = selectSquares(state);
-    const jumpAction = (step) => {
-        dispatch(jumpTo({ step }));
-    };
+const Game = ({
+    history,
+    stepNumber,
+    winner,
+    xIsNext,
+    jumpAction,
+}) => {
     const moves = history.map((step,move) => {
         const desc = move ?
             'Go to move #' + move + '   (' + history[move].stepCoords + ')' :
@@ -69,4 +60,27 @@ function Game() {
     );
 }
 
+function GameContainer() {
+    const { state, dispatch } = useContext(StateContext);
+    const history =  selectHistory(state);
+    const stepNumber = selectStepNumber(state);
+    const winner = selectWinner(state);
+    const xIsNext = selectIsNext(state);
+    // const squares = selectSquares(state);
+    const jumpAction = (step) => {
+        dispatch(jumpTo({ step }));
+    };
+    return (
+          <Game
+            jumpAction = { jumpAction }
+            history = { history }
+            stepNumber = { stepNumber }
+            winner = { winner }
+            xIsNext = { xIsNext }
+          />
+
+    );
+}
+
 export { Game };
+export { GameContainer };
